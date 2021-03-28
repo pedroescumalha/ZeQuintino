@@ -1,8 +1,16 @@
+import { IRouter } from "express";
 import { IPostsController } from "src/Abstractions/Controller/IPostsController";
+import { IDatabaseClientAsync } from "src/Abstractions/IDatabaseClientAsync";
 import { Post } from "../Entities/Post";
 import { BaseController } from "./BaseController";
 
 export default class PostsController extends BaseController<Post> implements IPostsController {
+
+    constructor(router:IRouter,  dbClient:IDatabaseClientAsync<Post>) 
+    {
+        super(router, dbClient);
+        this.basePath = "/";
+    }
 
     public Delete(): IPostsController 
     {

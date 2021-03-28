@@ -10,9 +10,8 @@ export abstract class BaseController<T extends IDatabaseEntity>
 
     dbClient: IDatabaseClientAsync<T>
 
-    constructor(path: string, router:IRouter,  dbClient:IDatabaseClientAsync<T>) 
+    constructor(router:IRouter,  dbClient:IDatabaseClientAsync<T>) 
     {
-        this.basePath = path;
         this.router = router;
         this.dbClient = dbClient;
     }
