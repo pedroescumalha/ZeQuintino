@@ -1,5 +1,6 @@
-import { EntityManager, IDatabaseDriver, Connection } from "@mikro-orm/core";
 import { IRouter } from "express";
+import { Post } from "src/Entities/Post";
+import { IDatabaseClientAsync } from "../IDatabaseClientAsync";
 import { ICreateController } from "./ICreateController";
 import { IDelete } from "./IDelete";
 import { IGet } from "./IGet";
@@ -12,5 +13,5 @@ export interface IPostsController extends ICreateController, IGet<IPostsControll
     
     basePath: string;
 
-    dbClient: EntityManager<IDatabaseDriver<Connection>>;
+    dbClient: IDatabaseClientAsync<Post>;
 }

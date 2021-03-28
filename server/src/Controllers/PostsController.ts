@@ -2,14 +2,14 @@ import { IPostsController } from "src/Abstractions/Controller/IPostsController";
 import { Post } from "../Entities/Post";
 import { BaseController } from "./BaseController";
 
-export default class PostsController extends BaseController implements IPostsController {
+export default class PostsController extends BaseController<Post> implements IPostsController {
 
     public Delete(): IPostsController 
     {
-        this.router.delete("/:id", async (req, res) => {
+        this.router.delete(`${this.basePath}:id`, async (req, res) => {
             try 
             {
-                await this.dbClient.nativeDelete(Post, {id: Number(req.params.id)});
+                await this.dbClient.DeleteEntryAsync({id: Number(req.params.id)});
                 res.sendStatus(204);
             } catch (error) {
                 res.status(500).send(error);
@@ -21,10 +21,10 @@ export default class PostsController extends BaseController implements IPostsCon
 
     public GetAll(): IPostsController 
     {
-        this.router.get("/", async (_, res) => {
+        this.router.get(this.basePath, async (_, res) => {
             try 
             {
-                const posts = await this.dbClient.find(Post, {});
+                const posts = await this.dbClient.GetAllEntriesAsync();
                 res.send(posts);                    
             } 
             catch (error) 
@@ -38,12 +38,10 @@ export default class PostsController extends BaseController implements IPostsCon
 
     public Post(): IPostsController 
     {
-        this.router.post("/", async (req, res) => {
-            const post = this.dbClient.create(Post, { title: req.body.title});
-
+        this.router.post(this.basePath, async (req, res) => {
             try 
             {
-                await this.dbClient.persistAndFlush(post);
+                const post = await this.dbClient.PostEntryAsync({ title: req.body.title});
                 res.status(201).send(post);                    
             } 
             catch (error) 
@@ -57,10 +55,10 @@ export default class PostsController extends BaseController implements IPostsCon
 
     public Get(): IPostsController 
     {
-        this.router.get("/:id", async (req, res) => {
+        this.router.get(`${this.basePath}:id`, async (req, res) => {
             try 
             {
-                const post = await this.dbClient.findOneOrFail(Post, {id: Number(req.params.id)});
+                const post = await this.dbClient.GetEntryAsync({id: Number(req.params.id)});
                 res.send(post);                    
             } 
             catch (error) 
@@ -74,14 +72,14 @@ export default class PostsController extends BaseController implements IPostsCon
 
     public Update(): IPostsController
     {
-        this.router.put("/:id", async (req, res) => {
+        this.router.put(`${this.basePath}:id`, async (req, res) => {
             try 
             {
-                const post = await this.dbClient.findOne(Post, {id: Number(req.params.id)});
+                const post = await this.dbClient.GetEntryAsync({id: Number(req.params.id)});
                 if(post != null)
                 {
                     post.title = req.body.title;
-                    await this.dbClient.persistAndFlush(post);
+                    await this.dbClient.UpdateEntryAsync(post);
                     res.send(post);    
                 }
 
