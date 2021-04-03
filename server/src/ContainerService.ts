@@ -1,7 +1,6 @@
 import { Connection, EntityManager, IDatabaseDriver, MikroORM } from "@mikro-orm/core";
 import express, { IRouter } from "express";
 import { Container } from "inversify";
-import { IController } from "./Abstractions/Controller/IController";
 import { IPostsController } from "./Abstractions/Controller/IPostsController";
 import { IUsersController } from "./Abstractions/Controller/IUsersController";
 import { IApp } from "./Abstractions/IApp";

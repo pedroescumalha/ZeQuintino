@@ -15,9 +15,9 @@ export default class PostsController extends BaseController implements IPostsCon
             try 
             {
                 await this.dbClient.DeleteEntryAsync(Post, {id: Number(req.params.id)});
-                res.sendStatus(204);
+                return res.sendStatus(204);
             } catch (error) {
-                res.status(500).send(error.message);
+                return res.status(500).send(error.message);
             }
         });
 
@@ -30,11 +30,11 @@ export default class PostsController extends BaseController implements IPostsCon
             try 
             {
                 const posts = await this.dbClient.GetAllEntriesAsync(Post);
-                res.send(posts);                    
+                return res.send(posts);                    
             } 
             catch (error) 
             {
-                res.status(500).send(error.message);
+                return res.status(500).send(error.message);
             }
         });
         
@@ -47,11 +47,11 @@ export default class PostsController extends BaseController implements IPostsCon
             try 
             {
                 const post = await this.dbClient.PostEntryAsync(Post, { title: req.body.title});
-                res.status(201).send(post);                    
+                return res.status(201).send(post);                    
             } 
             catch (error) 
             {
-                res.status(500).send(error.message);
+                return res.status(500).send(error.message);
             }
         });
 
@@ -66,16 +66,14 @@ export default class PostsController extends BaseController implements IPostsCon
                 const post = await this.dbClient.GetEntryAsync(Post, {id: Number(req.params.id)});
                 if (post == null)
                 {
-                    res.status(404).send("Post not found");
+                    return res.status(404).send("Post not found");
                 }
-                else
-                {
-                    res.send(post);
-                }
+                
+                return res.send(post);
             }
             catch (error) 
             {
-                res.status(500).send(error.message);
+                return res.status(500).send(error.message);
             }
         });
         
@@ -92,14 +90,14 @@ export default class PostsController extends BaseController implements IPostsCon
                 {
                     post.title = req.body.title;
                     await this.dbClient.UpdateEntryAsync(post);
-                    res.send(post);    
+                    return res.send(post);    
                 }
 
-                res.status(409).send("Post not found in the database");
+                return res.status(409).send("Post not found in the database");
             }
             catch (error) 
             {
-                res.status(500).send(error.message);
+                return res.status(500).send(error.message);
             }
         });
 

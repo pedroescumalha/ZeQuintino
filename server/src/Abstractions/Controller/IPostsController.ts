@@ -6,5 +6,4 @@ import { IPut } from "./IPut";
 
 export interface IPostsController extends IController, IGet<IPostsController>, IPost<IPostsController>, IDelete<IPostsController>, IPut<IPostsController>
 {
-    GetAll(): IPostsController;
 }
