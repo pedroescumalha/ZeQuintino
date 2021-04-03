@@ -1,19 +1,17 @@
 import { Connection, EntityManager, EntityName, IDatabaseDriver } from "@mikro-orm/core";
 import { IDatabaseEntity } from "./IDatabaseEntity";
 
-export interface IDatabaseClientAsync<T extends IDatabaseEntity>
+export interface IDatabaseClientAsync
 {
-    entity: EntityName<T>;
-
     db: EntityManager<IDatabaseDriver<Connection>>;
 
-    GetAllEntriesAsync(): Promise<T[]>;
+    GetAllEntriesAsync<T extends IDatabaseEntity>(Entity: EntityName<T>): Promise<T[]>;
 
-    GetEntryAsync(query: object): Promise<T>;
+    GetEntryAsync<T extends IDatabaseEntity>(Entity: EntityName<T>, query: object): Promise<T>;
 
-    UpdateEntryAsync(entry: T): Promise<T>;
+    UpdateEntryAsync<T extends IDatabaseEntity>(entry: T): Promise<T>;
 
-    PostEntryAsync(DataToUpdate: object): Promise<T>;
+    PostEntryAsync<T extends IDatabaseEntity>(Entity: EntityName<T>, DataToUpdate: object): Promise<T>;
 
-    DeleteEntryAsync(query: object): Promise<void>;
+    DeleteEntryAsync<T extends IDatabaseEntity>(Entity: EntityName<T>, query: object): Promise<void>;
 }

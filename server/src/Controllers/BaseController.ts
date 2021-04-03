@@ -1,16 +1,15 @@
 import { IRouter } from "express";
 import { IDatabaseClientAsync } from "src/Abstractions/IDatabaseClientAsync";
-import { IDatabaseEntity } from "src/Abstractions/IDatabaseEntity";
 
-export abstract class BaseController<T extends IDatabaseEntity>
+export abstract class BaseController
 {
     router!: IRouter;
     
     basePath!: string;
 
-    dbClient: IDatabaseClientAsync<T>
+    dbClient: IDatabaseClientAsync
 
-    constructor(router:IRouter,  dbClient:IDatabaseClientAsync<T>) 
+    constructor(router:IRouter,  dbClient:IDatabaseClientAsync) 
     {
         this.router = router;
         this.dbClient = dbClient;

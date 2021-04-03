@@ -1,12 +1,14 @@
 import { IRouter } from "express";
-import { IPostsController } from "src/Abstractions/Controller/IPostsController";
-import { IDatabaseClientAsync } from "src/Abstractions/IDatabaseClientAsync";
+import { injectable } from "inversify";
+import { IPostsController } from "../Abstractions/Controller/IPostsController";
+import { IDatabaseClientAsync } from "../Abstractions/IDatabaseClientAsync";
 import { Post } from "../Entities/Post";
 import { BaseController } from "./BaseController";
 
-export default class PostsController extends BaseController<Post> implements IPostsController {
+@injectable()
+export default class PostsController extends BaseController implements IPostsController {
 
-    constructor(router:IRouter,  dbClient:IDatabaseClientAsync<Post>) 
+    constructor(router:IRouter,  dbClient:IDatabaseClientAsync) 
     {
         super(router, dbClient);
         this.basePath = "/";
@@ -17,7 +19,7 @@ export default class PostsController extends BaseController<Post> implements IPo
         this.router.delete(`${this.basePath}:id`, async (req, res) => {
             try 
             {
-                await this.dbClient.DeleteEntryAsync({id: Number(req.params.id)});
+                await this.dbClient.DeleteEntryAsync(Post, {id: Number(req.params.id)});
                 res.sendStatus(204);
             } catch (error) {
                 res.status(500).send(error);
@@ -32,7 +34,7 @@ export default class PostsController extends BaseController<Post> implements IPo
         this.router.get(this.basePath, async (_, res) => {
             try 
             {
-                const posts = await this.dbClient.GetAllEntriesAsync();
+                const posts = await this.dbClient.GetAllEntriesAsync(Post);
                 res.send(posts);                    
             } 
             catch (error) 
@@ -49,7 +51,7 @@ export default class PostsController extends BaseController<Post> implements IPo
         this.router.post(this.basePath, async (req, res) => {
             try 
             {
-                const post = await this.dbClient.PostEntryAsync({ title: req.body.title});
+                const post = await this.dbClient.PostEntryAsync(Post, { title: req.body.title});
                 res.status(201).send(post);                    
             } 
             catch (error) 
@@ -66,7 +68,7 @@ export default class PostsController extends BaseController<Post> implements IPo
         this.router.get(`${this.basePath}:id`, async (req, res) => {
             try 
             {
-                const post = await this.dbClient.GetEntryAsync({id: Number(req.params.id)});
+                const post = await this.dbClient.GetEntryAsync(Post, {id: Number(req.params.id)});
                 res.send(post);                    
             } 
             catch (error) 
@@ -83,7 +85,7 @@ export default class PostsController extends BaseController<Post> implements IPo
         this.router.put(`${this.basePath}:id`, async (req, res) => {
             try 
             {
-                const post = await this.dbClient.GetEntryAsync({id: Number(req.params.id)});
+                const post = await this.dbClient.GetEntryAsync(Post, {id: Number(req.params.id)});
                 if(post != null)
                 {
                     post.title = req.body.title;
