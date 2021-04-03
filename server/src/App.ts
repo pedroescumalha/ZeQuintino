@@ -4,6 +4,7 @@ import { IPostsController } from "./Abstractions/Controller/IPostsController";
 import { Express } from 'express-serve-static-core';
 
 import { IApp } from "./Abstractions/IApp";
+import { Routes } from "./Constants/Routes";
 
 export class App implements IApp
 {
@@ -19,7 +20,7 @@ export class App implements IApp
     public init()
     {
         this.Server.use(bodyParser.json());
-        this.Server.use(this.PostController.basePath, this.PostController.CreateRouter());
+        this.Server.use(Routes.V1.Base, this.PostController.CreateRouter());
         this.Server.listen(4000, () => console.log('server started on localhost:4000'));
     }
 }

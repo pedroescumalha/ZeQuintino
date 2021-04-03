@@ -1,5 +1,6 @@
 import { IRouter } from "express";
 import { injectable } from "inversify";
+import { Routes } from "../Constants/Routes";
 import { IPostsController } from "../Abstractions/Controller/IPostsController";
 import { IDatabaseClientAsync } from "../Abstractions/IDatabaseClientAsync";
 import { Post } from "../Entities/Post";
@@ -11,7 +12,7 @@ export default class PostsController extends BaseController implements IPostsCon
     constructor(router:IRouter,  dbClient:IDatabaseClientAsync) 
     {
         super(router, dbClient);
-        this.basePath = "/";
+        this.basePath = Routes.V1.Posts;
     }
 
     public Delete(): IPostsController 
