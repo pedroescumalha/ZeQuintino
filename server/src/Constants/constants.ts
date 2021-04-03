@@ -7,4 +7,5 @@ export const Symbols = {
     DbClient: Symbol.for("DbClient"),
     Server: Symbol.for("Server"),
     App: Symbol.for("App"),
+    UsersController: Symbol.for("UsersController")
 }

@@ -1,13 +1,16 @@
 import { Connection, EntityManager, IDatabaseDriver, MikroORM } from "@mikro-orm/core";
 import express, { IRouter } from "express";
 import { Container } from "inversify";
+import { IController } from "./Abstractions/Controller/IController";
 import { IPostsController } from "./Abstractions/Controller/IPostsController";
+import { IUsersController } from "./Abstractions/Controller/IUsersController";
 import { IApp } from "./Abstractions/IApp";
 import { IDatabaseClientAsync } from "./Abstractions/IDatabaseClientAsync";
 import { App } from "./App";
 import { DatabaseClientAsync } from "./Clients/DatabaseClientAsync";
 import { Symbols } from "./Constants/constants";
 import PostsController from "./Controllers/PostsController";
+import UsersController from "./Controllers/UsersController";
 import microConfig from './mikro-orm.config';
 
 export class ContainerService
@@ -32,6 +35,7 @@ export class ContainerService
     RegisterDependencies(container: Container): void
     {
         container.bind<IPostsController>(Symbols.PostsController).to(PostsController);
+        container.bind<IUsersController>(Symbols.UsersController).to(UsersController);
         container.bind<IDatabaseClientAsync>(Symbols.DbClient).to(DatabaseClientAsync);
     }
 }
