@@ -19,9 +19,9 @@ export class DatabaseClientAsync implements IDatabaseClientAsync
         return await this.db.find(entity, {});
     }
 
-    public async GetEntryAsync<T extends IDatabaseEntity>(entity: EntityName<T>, query: object): Promise<T>
+    public async GetEntryAsync<T extends IDatabaseEntity>(entity: EntityName<T>, query: object): Promise<T | null>
     {
-        return await this.db.findOneOrFail(entity, query as FilterQuery<T>);
+        return await this.db.findOne(entity, query as FilterQuery<T>);
     }
 
     public async UpdateEntryAsync<T extends IDatabaseEntity>(entry: T): Promise<T>

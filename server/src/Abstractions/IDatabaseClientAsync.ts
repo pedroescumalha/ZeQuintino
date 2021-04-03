@@ -7,7 +7,7 @@ export interface IDatabaseClientAsync
 
     GetAllEntriesAsync<T extends IDatabaseEntity>(Entity: EntityName<T>): Promise<T[]>;
 
-    GetEntryAsync<T extends IDatabaseEntity>(Entity: EntityName<T>, query: object): Promise<T>;
+    GetEntryAsync<T extends IDatabaseEntity>(Entity: EntityName<T>, query: object): Promise<T | null>;
 
     UpdateEntryAsync<T extends IDatabaseEntity>(entry: T): Promise<T>;
 
