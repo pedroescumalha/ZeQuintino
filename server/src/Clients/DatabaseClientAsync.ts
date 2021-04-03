@@ -1,14 +1,15 @@
 import { Connection, EntityData, EntityManager, EntityName, FilterQuery, IDatabaseDriver } from "@mikro-orm/core";
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
 import { IDatabaseClientAsync } from "src/Abstractions/IDatabaseClientAsync";
 import { IDatabaseEntity } from "src/Abstractions/IDatabaseEntity";
+import { Symbols } from "../Constants/constants";
 
 @injectable()
 export class DatabaseClientAsync implements IDatabaseClientAsync
 {
     db: EntityManager<IDatabaseDriver<Connection>>;
 
-    constructor(db:EntityManager<IDatabaseDriver<Connection>>) 
+    constructor(@inject(Symbols.ORM) db:EntityManager<IDatabaseDriver<Connection>>) 
     {
         this.db = db;
     }

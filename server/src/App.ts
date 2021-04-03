@@ -2,16 +2,18 @@ import express from "express";
 import bodyParser from "body-parser";
 import { IPostsController } from "./Abstractions/Controller/IPostsController";
 import { Express } from 'express-serve-static-core';
-
 import { IApp } from "./Abstractions/IApp";
 import { Routes } from "./Constants/Routes";
+import { inject, injectable } from "inversify";
+import { Symbols } from "./Constants/constants";
 
+@injectable()
 export class App implements IApp
 {
     PostController: IPostsController;
     Server: Express;
     
-    constructor(postController: IPostsController) 
+    constructor(@inject(Symbols.PostsController) postController: IPostsController) 
     {
         this.PostController = postController;
         this.Server = express();

@@ -1,6 +1,6 @@
 import { MikroORM } from "@mikro-orm/core";
 import path from "path";
-import { IsProdEnvironment } from "./constants";
+import { IsProdEnvironment } from "./Constants/constants";
 import { Post } from "./Entities/Post";
 
 export default {

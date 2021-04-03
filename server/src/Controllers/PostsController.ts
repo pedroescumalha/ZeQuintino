@@ -1,15 +1,16 @@
 import { IRouter } from "express";
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
 import { Routes } from "../Constants/Routes";
 import { IPostsController } from "../Abstractions/Controller/IPostsController";
 import { IDatabaseClientAsync } from "../Abstractions/IDatabaseClientAsync";
 import { Post } from "../Entities/Post";
 import { BaseController } from "./BaseController";
+import { Symbols } from "../constants/constants";
 
 @injectable()
 export default class PostsController extends BaseController implements IPostsController {
 
-    constructor(router:IRouter,  dbClient:IDatabaseClientAsync) 
+    constructor(@inject(Symbols.Router) router:IRouter,  @inject(Symbols.DbClient) dbClient:IDatabaseClientAsync) 
     {
         super(router, dbClient);
         this.basePath = Routes.V1.Posts;
