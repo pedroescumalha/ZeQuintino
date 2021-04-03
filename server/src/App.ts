@@ -1,22 +1,25 @@
 import express from "express";
 import bodyParser from "body-parser";
 import { IPostsController } from "./Abstractions/Controller/IPostsController";
+import { Express } from 'express-serve-static-core';
+
 import { IApp } from "./Abstractions/IApp";
 
 export class App implements IApp
 {
     PostController: IPostsController;
+    Server: Express;
     
     constructor(postController: IPostsController) 
     {
         this.PostController = postController;
+        this.Server = express();
     }
 
     public init()
     {
-        const app = express();
-        app.use(bodyParser.json());
-        app.use(this.PostController.basePath, this.PostController.CreateRouter());
-        app.listen(4000, () => console.log('server started on localhost:4000'));
+        this.Server.use(bodyParser.json());
+        this.Server.use(this.PostController.basePath, this.PostController.CreateRouter());
+        this.Server.listen(4000, () => console.log('server started on localhost:4000'));
     }
 }
